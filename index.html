@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <style>
+        body {
+            background-color: #000;
+            color: #fff;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            padding: 20px;
+        }
+        .calculator {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 40px;
+        }
+        .section {
+            background: #111;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+        .section-title {
+            color: #666;
+            font-size: 14px;
+            margin-bottom: 20px;
+        }
+        .input-group {
+            margin-bottom: 15px;
+        }
+        .input-group label {
+            display: block;
+            color: #666;
+            font-size: 14px;
+            margin-bottom: 8px;
+        }
+        .input-group input {
+            background: transparent;
+            border: none;
+            border-bottom: 1px solid #333;
+            color: #fff;
+            font-size: 24px;
+            width: 200px;
+            padding: 5px 0;
+        }
+        .input-group select {
+            background: #222;
+            border: none;
+            color: #fff;
+            font-size: 16px;
+            padding: 8px;
+            width: 200px;
+            border-radius: 4px;
+        }
+        .input-group .unit {
+            color: #666;
+            font-size: 12px;
+            margin-top: 4px;
+        }
+        .checkbox-group {
+            margin: 15px 0;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .checkbox-group input {
+            width: auto;
+        }
+        .checkbox-group label {
+            display: inline;
+        }
+        .result {
+            text-align: right;
+            margin-bottom: 30px;
+        }
+        .main-result {
+            font-size: 42px;
+            text-align: right;
+            margin-bottom: 20px;
+            font-weight: 300;
+            color: #4169e1;
+        }
+        .detail-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 0;
+            border-bottom: 1px solid #222;
+        }
+        .detail-row:last-child {
+            border-bottom: none;
+        }
+        .detail-label {
+            color: #666;
+            font-size: 14px;
+        }
+        .detail-value {
+            font-size: 18px;
+        }
+        .progress-bar {
+            height: 4px;
+            background: #222;
+            border-radius: 2px;
+            margin: 10px 0;
+        }
+        .progress-fill {
+            height: 100%;
+            background: #4169e1;
+            border-radius: 2px;
+            transition: width 0.3s ease;
+        }
+        .summary {
+            grid-column: 1 / -1;
+            text-align: left;
+            color: #666;
+            font-size: 14px;
+            line-height: 1.5;
+            padding: 20px;
+            background: #111;
+            border-radius: 8px;
+        }
+        input::-webkit-outer-spin-button,
+        input::-webkit-inner-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
+        input[type=number] {
+            -moz-appearance: textfield;
+        }
+        .info-block {
+            margin-top: 10px;
+            padding: 10px;
+            background: #1a1a1a;
+            border-radius: 4px;
+            font-size: 12px;
+            color: #888;
+        }
+    </style>
+</head>
+<body>
+    <div class="calculator">
+        <div class="section">
+            <div class="section-title">Acquisition</div>
+            
+            <div class="input-group">
+                <label>Prix d'achat</label>
+                <input type="number" id="purchasePrice" value="200000">
+                <div class="unit">EUR</div>
+            </div>
+
+            <div class="input-group">
+                <label>Frais d'acquisition</label>
+                <input type="number" id="purchaseFees" value="16000">
+                <div class="unit">EUR</div>
+            </div>
+
+            <div class="input-group">
+                <label>Travaux réalisés</label>
+                <input type="number" id="improvements" value="20000">
+                <div class="unit">EUR</div>
+            </div>
+
+            <div class="input-group">
+                <label>Date d'acquisition</label>
+                <input type="date" id="purchaseDate" value="2010-01-01">
+            </div>
+        </div>
+
+        <div class="section">
+            <div class="section-title">Vente</div>
+            
+            <div class="input-group">
+                <label>Prix de vente</label>
+                <input type="number" id="sellingPrice" value="350000">
+                <div class="unit">EUR</div>
+            </div>
+
+            <div class="input-group">
+                <label>Frais d'agence</label>
+                <input type="number" id="agencyFees" value="10500">
+                <div class="unit">EUR</div>
+            </div>
+
+            <div class="input-group">
+                <label>Date de vente</label>
+                <input type="date" id="sellingDate" value="2024-01-01">
+            </div>
+
+            <div class="checkbox-group">
+                <input type="checkbox" id="primaryResidence">
+                <label>Résidence principale</label>
+            </div>
+
+            <div class="checkbox-group">
+                <input type="checkbox" id="firstSale">
+                <label>Première cession d'un logement autre que la résidence principale</label>
+            </div>
+        </div>
+
+        <div class="section">
+            <div class="section-title">Plus-value brute</div>
+            
+            <div class="detail-row">
+                <span class="detail-label">Prix de vente net</span>
+                <span class="detail-value"><span id="netSellingPrice">339500</span> €</span>
+            </div>
+            
+            <div class="detail-row">
+                <span class="detail-label">Prix de revient</span>
+                <span class="detail-value"><span id="totalCost">236000</span> €</span>
+            </div>
+
+            <div class="main-result">
+                <span id="grossGain">103500</span> €
+            </div>
+        </div>
+
+        <div class="section">
+            <div class="section-title">Abattements</div>
+            
+            <div class="detail-row">
+                <span class="detail-label">Durée de détention</span>
+                <span class="detail-value"><span id="holdingPeriod">14</span> ans</span>
+            </div>
+            
+            <div class="detail-row">
+                <span class="detail-label">Abattement pour durée (IR)</span>
+                <div>
+                    <div class="progress-bar">
+                        <div class="progress-fill" id="irProgress"></div>
+                    </div>
+                    <span class="detail-value"><span id="irAbatement">72</span>%</span>
+                </div>
+            </div>
+            
+            <div class="detail-row">
+                <span class="detail-label">Abattement pour durée (PS)</span>
+                <div>
+                    <div class="progress-bar">
+                        <div class="progress-fill" id="psProgress"></div>
+                    </div>
+                    <span class="detail-value"><span id="psAbatement">36</span>%</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="section">
+            <div class="section-title">Imposition</div>
+            
+            <div class="detail-row">
+                <span class="detail-label">Base imposable IR (19%)</span>
+                <span class="detail-value"><span id="irTaxBase">28980</span> €</span>
+            </div>
+            
+            <div class="detail-row">
+                <span class="detail-label">Base imposable PS (17.2%)</span>
+                <span class="detail-value"><span id="psTaxBase">66240</span> €</span>
+            </div>
+            
+            <div class="detail-row">
+                <span class="detail-label">Total impôt sur la plus-value</span>
+                <span class="detail-value"><span id="totalTax">16879</span> €</span>
+            </div>
+        </div>
+
+        <div class="summary">
+            Pour une vente à <span id="summaryPrice">350000</span> € d'un bien acquis il y a <span id="summaryYears">14</span> ans :<br>
+            - Plus-value brute : <span id="summaryGrossGain">103500</span> €<br>
+            - Abattements appliqués : IR <span id="summaryIrAbatement">72</span>% / PS <span id="summaryPsAbatement">36</span>%<br>
+            - Montant taxe totale : <span id="summaryTax">16879</span> €<br>
+            - Plus-value nette après impôts : <span id="summaryNetGain">86621</span> €
+        </div>
+    </div>
+
+    <script>
+        const inputs = document.querySelectorAll('input');
+
+        function calculatePropertyGain() {
+            // Récupération des valeurs
+            const purchasePrice = parseFloat(document.getElementById('purchasePrice').value) || 0;
+            const purchaseFees = parseFloat(document.getElementById('purchaseFees').value) || 0;
+            const improvements = parseFloat(document.getElementById('improvements').value) || 0;
+            const sellingPrice = parseFloat(document.getElementById('sellingPrice').value) || 0;
+            const agencyFees = parseFloat(document.getElementById('agencyFees').value) || 0;
+            const isPrimaryResidence = document.getElementById('primaryResidence').checked;
+            const isFirstSale = document.getElementById('firstSale').checked;
+
+            // Calcul de la durée de détention
+            const purchaseDate = new Date(document.getElementById('purchaseDate').value);
+            const sellingDate = new Date(document.getElementById('sellingDate').value);
+            const holdingYears = Math.floor((sellingDate - purchaseDate) / (365.25 * 24 * 60 * 60 * 1000));
+
+            // Calcul de la plus-value brute
+            const netSellingPrice = sellingPrice - agencyFees;
+            const totalCost = purchasePrice + purchaseFees + improvements;
+            const grossGain = netSellingPrice - totalCost;
+
+            // Si résidence principale, pas de taxation
+            if (isPrimaryResidence) {
+                updateDisplay(grossGain, 100, 100, 0, grossGain, holdingYears);
+                return;
+            }
+
+            // Calcul des abattements
+            let irAbatement = 0;
+            let psAbatement = 0;
+
+            // Abattement IR (22 ans pour exonération totale)
+            if (holdingYears < 6) {
+                irAbatement = 0;
+            } else if (holdingYears < 22) {
+                irAbatement = (holdingYears - 5) * 6;
+            } else {
+                irAbatement = 100;
+            }
+
+            // Abattement PS (30 ans pour exonération totale)
+            if (holdingYears < 6) {
+                psAbatement = 0;
+            } else if (holdingYears < 30) {
+                psAbatement = (holdingYears - 5) * 1.65;
+            } else {
+                psAbatement = 100;
+            }
+
+            // Calcul des bases imposables
+            const irTaxBase = grossGain * (1 - irAbatement/100);
+            const psTaxBase = grossGain * (1 - psAbatement/100);
+
+            // Calcul des impôts
+            const irTax = irTaxBase * 0.19;
+            const psTax = psTaxBase * 0.172;
+            const totalTax = irTax + psTax;
+
+            // Mise à jour de l'affichage
+            updateDisplay(grossGain, irAbatement, psAbatement, totalTax, netSellingPrice, holdingYears, irTaxBase, psTaxBase);
+        }
+
+        function updateDisplay(grossGain, irAbatement, psAbatement, totalTax, netSellingPrice, holdingYears, irTaxBase, psTaxBase) {
+            document.getElementById('netSellingPrice').textContent = Math.round(netSellingPrice).toLocaleString();
+            document.getElementById('grossGain').textContent = Math.round(grossGain).toLocaleString();
+            document.getElementById('holdingPeriod').textContent = holdingYears;
+            document.getElementById('irAbatement').textContent = Math.round(irAbatement);
+            document.getElementById('psAbatement').textContent = Math.round(psAbatement);
+            document.getElementById('irTaxBase').textContent = Math.round(irTaxBase).toLocaleString();
+            document.getElementById('psTaxBase').textContent = Math.round(psTaxBase).toLocaleString();
+            document.getElementById('totalTax').textContent = Math.round(totalTax).toLocaleString();
+
+            // Mise à jour des barres de progression
+            document.getElementById('irProgress').style.width = `${irAbatement}%`;
+            document.getElementById('psProgress').style.width = `${psAbatement}%`;
+
+            // Mise à jour du résumé
+            document.getElementById('summaryPrice').textContent = document.getElementById('sellingPrice').value;
+            document.getElementById('summaryYears').textContent = holdingYears;
+            document.getElementById('summaryGrossGain').textContent = Math.round(grossGain).toLocaleString();
+            document.getElementById('summaryIrAbatement').textContent = Math.round(irAbatement);
+            document.getElementById('summaryPsAbatement').textContent = Math.round(psAbatement);
+            document.getElementById('summaryTax').textContent = Math.round(totalTax).toLocaleString();
+            document.getElementById('summaryNetGain').textContent = Math.round(grossGain - totalTax).toLocaleString();
+        }
+
+        inputs.forEach(input => {
+            input.addEventListener('input', calculatePropertyGain);
+            input.addEventListener('change', calculatePropertyGain);
+        });
+
+        calculatePropertyGain();
+    </script>
+</body>
+</html>
